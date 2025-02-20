@@ -9,13 +9,21 @@ void setup() {
   grid = new int[height / SPACING][width / SPACING];
 
   // populate initial grid
-  // your code here
-
+  for (int row = 0; row < grid.length; row++) {
+     for (int col = 0; col < grid[0].length; col++) {
+       int type = (int) (Math.random() * 11);
+       if (type < (DENSITY*10)) {
+         grid[row][col] = 1;
+       } else {
+         grid[row][col] = 0;
+       }
+     }
+  }
 }
 
 void draw() {
   showGrid();
-  grid = calcNextGrid();
+  // grid = calcNextGrid();
 }
 
 int[][] calcNextGrid() {
@@ -37,6 +45,17 @@ int countNeighbors(int y, int x) {
 
 void showGrid() {
   // your code here
+  for (int row = 0; row < grid.length; row++) {
+     for (int col = 0; col < grid[0].length; col++) {
+       if (grid[row][col] == 1) {
+         fill(255, 255, 255);
+       } else {
+         fill(0, 0, 0);
+       }
+       
+       square((col * SPACING), (row * SPACING), SPACING);
+     }
+  }
   // use square() to represent each cell
   // use fill(r, g, b) to control color: black for empty, red for filled (or alive)
 }
