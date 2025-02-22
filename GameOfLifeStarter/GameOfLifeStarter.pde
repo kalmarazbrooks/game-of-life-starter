@@ -25,9 +25,12 @@ void setup() {
 
 void draw() {
   if (running) {
-    showGrid();
-    grid = calcNextGrid();
+    runCycle();
   }
+}
+void runCycle(){
+  showGrid();
+   grid = calcNextGrid();
 }
 
 Cell[][] calcNextGrid() {
@@ -90,5 +93,8 @@ void showGrid() {
 void keyPressed() {
   if (keyCode == ENTER) {
     running = !running;
+  }
+  if (keyCode == RIGHT) {
+    runCycle();
   }
 }
