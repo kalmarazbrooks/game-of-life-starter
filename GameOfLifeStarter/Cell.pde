@@ -1,7 +1,10 @@
 public class Cell {
   
   int lifeStatus = 0;
+  int nextStatus = 0;
   double timeAlive = 0;
+  
+  ArrayList<Integer> saveState = new ArrayList<Integer>();
   
   public Cell(int bornStatus, double previousTime) {
     lifeStatus = bornStatus;
@@ -9,6 +12,9 @@ public class Cell {
   }
   
   public void time() {
+    saveState.add(lifeStatus);
+    lifeStatus = nextStatus;
+    
     if (lifeStatus == 1) {
       lifetimeIncrease(240 / frameRate);
     } else {
@@ -22,6 +28,19 @@ public class Cell {
     fill((float)(255 - Math.min(timeAlive, 255)), 0, (float)(Math.min(timeAlive, 255)));
   }
   
+  public void goBack() {
+    lifeStatus = saveState.remove(saveState.size()-1);
+    
+    if (lifeStatus == 1) {
+      lifetimeIncrease((240 / frameRate)*(-1));
+    } else {
+      fill(0, 0, 0);
+    }
+  }
+  
+  public void applyNextStatus(int state) {
+    nextStatus = state;
+  }
   public int getCellStatus() {
     return lifeStatus;
   }

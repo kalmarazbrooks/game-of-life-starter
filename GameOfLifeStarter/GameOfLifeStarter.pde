@@ -1,5 +1,5 @@
 final int SPACING = 20; // each cell's width/height //<>// //<>//
-final float DENSITY = 0.5; // how likely each cell is to be alive at the start
+final float DENSITY = 0.7; // how likely each cell is to be alive at the start
 Cell[][] grid; // the 2D array to hold 0's and 1's
 
 boolean running = true;
@@ -28,22 +28,18 @@ void draw() {
     runCycle();
   }
 }
-void runCycle(){
+void runCycle() {
+  calcNextGrid();
   showGrid();
-   grid = calcNextGrid();
 }
 
-Cell[][] calcNextGrid() {
-  Cell[][] nextGrid = new Cell[grid.length][grid[0].length];
-
+void calcNextGrid() {
   for (int row = 0; row < grid.length; row++) {
     for (int col = 0; col < grid[0].length; col++) {
       int number = countNeighbors(row, col);
-      nextGrid[row][col] = new Cell(applyRule(number, row, col), grid[row][col].getTimeAlive());
+      grid[row][col].applyNextStatus(applyRule(number, row, col));
     }
   }
-
-  return nextGrid;
 }
 int applyRule(int n, int row, int col) {
   if (grid[row][col].getCellStatus() == 1) {
@@ -82,7 +78,6 @@ void showGrid() {
   for (int row = 0; row < grid.length; row++) {
     for (int col = 0; col < grid[0].length; col++) {
       grid[row][col].time();
-
       square((col * SPACING), (row * SPACING), SPACING);
     }
   }
@@ -90,11 +85,23 @@ void showGrid() {
   // use fill(r, g, b) to control color: black for empty, red for filled (or alive)
 }
 
-void keyPressed() {
-  if (keyCode == ENTER) {
-    running = !running;
+void rewind() {
+  for (int row = 0; row < grid.length; row++) {
+    for (int col = 0; col < grid[0].length; col++) {
+      grid[row][col].goBack();
+      square((col * SPACING), (row * SPACING), SPACING);
+    }
   }
+
+  calcNextGrid();
+}
+
+void keyPressed() {
   if (keyCode == RIGHT) {
     runCycle();
+  } else if (keyCode == LEFT) {
+    rewind();
+  } else if (keyCode == ENTER) {
+    running = !running;
   }
 }
