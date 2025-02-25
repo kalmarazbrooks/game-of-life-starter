@@ -1,4 +1,4 @@
-final int SPACING = 20; // each cell's width/height //<>// //<>//
+final int SPACING = 20; // each cell's width/height //<>// //<>// //<>//
 final float DENSITY = 0.7; // how likely each cell is to be alive at the start
 Cell[][] grid; // the 2D array to hold 0's and 1's
 
@@ -104,4 +104,22 @@ void keyPressed() {
   } else if (keyCode == ENTER) {
     running = !running;
   }
+}
+
+void mousePressed() {
+  int yPos = (int)(mouseY / 20);
+  int xPos = (int)(mouseX / 20);
+  
+  if (mouseButton == LEFT) {
+    grid[yPos][xPos].alternateStatus(SPACING, yPos, xPos); // single, on/off
+  } else if (mouseButton == RIGHT) {
+    blast(xPos, yPos); // multiple, on ONLY
+  }
+}
+private void blast(int y, int x) {
+  grid[x][y].chargeCell(SPACING, x, y);
+  grid[x-1][y].chargeCell(SPACING, x-1, y);
+  grid[x+1][y].chargeCell(SPACING, x+1, y);
+  grid[x][y-1].chargeCell(SPACING, x, y-1);
+  grid[x][y+1].chargeCell(SPACING, x, y+1);
 }
