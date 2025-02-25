@@ -2,7 +2,7 @@ final int SPACING = 20; // each cell's width/height //<>// //<>//
 final float DENSITY = 0.7; // how likely each cell is to be alive at the start
 Cell[][] grid; // the 2D array to hold 0's and 1's
 
-boolean running = true;
+boolean running = false;
 
 void setup() {
   size(1500, 1000); // adjust accordingly, make sure it's a multiple of SPACING
@@ -13,14 +13,12 @@ void setup() {
   // populate initial grid
   for (int row = 0; row < grid.length; row++) {
     for (int col = 0; col < grid[0].length; col++) {
-      int type = (int) (Math.random() * 11);
-      if (type < (DENSITY*10)) {
-        grid[row][col] = new Cell(1, 0);
-      } else {
-        grid[row][col] = new Cell(0, 0);
-      }
+      grid[row][col] = new Cell(0);
+      
     }
   }
+  
+  showGrid();
 }
 
 void draw() {
@@ -104,4 +102,14 @@ void keyPressed() {
   } else if (keyCode == ENTER) {
     running = !running;
   }
+}
+void mousePressed() {
+  if (mouseButton == LEFT) {
+    grid[(int)(mouseX / 20)][(int)(mouseY / 20)].alternateStatus(0);
+  } else if (mouseButton == RIGHT) {
+    grid[(int)(mouseX / 20)][(int)(mouseY / 20)].alternateStatus(1);
+  }
+  
+    
+  square(((mouseX / 20) * SPACING), ((mouseY / 20) * SPACING), SPACING);
 }

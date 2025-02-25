@@ -2,49 +2,59 @@ public class Cell {
   
   int lifeStatus = 0;
   int nextStatus = 0;
-  double timeAlive = 0;
+  
+  int colorCode; // 0 is blue, 1 is red
   
   ArrayList<Integer> saveState = new ArrayList<Integer>();
   
-  public Cell(int bornStatus, double previousTime) {
+  public Cell(int bornStatus) {
     lifeStatus = bornStatus;
-    timeAlive += previousTime;
   }
   
   public void time() {
     saveState.add(lifeStatus);
     lifeStatus = nextStatus;
     
-    if (lifeStatus == 1) {
-      lifetimeIncrease(240 / frameRate);
-    } else {
-      fill(0, 0, 0);
-      timeAlive = 0;
-    }
-  }
-  private void lifetimeIncrease(double time) {
-    timeAlive += time;
-    
-    fill((float)(255 - Math.min(timeAlive, 255)), 0, (float)(Math.min(timeAlive, 255)));
+    checkColor();
   }
   
   public void goBack() {
     lifeStatus = saveState.remove(saveState.size()-1);
     
-    if (lifeStatus == 1) {
-      lifetimeIncrease((240 / frameRate)*(-1));
-    } else {
-      fill(0, 0, 0);
-    }
+    checkColor();
   }
   
   public void applyNextStatus(int state) {
     nextStatus = state;
   }
+  public void alternateStatus(int cCode) {
+    if (lifeStatus == 1) {
+      lifeStatus = 0;
+    } else {
+      lifeStatus = 1;
+    }
+    
+    applyColor(cCode);
+    checkColor();
+    saveState.add(lifeStatus);
+  }
+  private void applyColor(int cCode) {
+    colorCode = cCode;
+  }
+  
   public int getCellStatus() {
     return lifeStatus;
   }
-  public double getTimeAlive() {
-    return timeAlive;
+  
+  private void checkColor() {
+    if (lifeStatus == 1) {
+      if (colorCode == 0) {
+        fill(0, 0, 255);
+      } else {
+        fill(255, 0, 0);
+      }
+    } else {
+      fill(0, 0, 0);
+    }
   }
 }
