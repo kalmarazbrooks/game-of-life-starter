@@ -11,3 +11,9 @@ For a space that is populated (1):
 For a space that is unpopulated (0):
 - Each cell with three neighbors becomes populated.
 - Otherwise, the cell remains unpopulated.
+
+## User Abilities
+- Left-click any cell to switch it on/off
+- Right-click any cell to switch adjacent cells (including itself) around it on, creating an outward blast
+- Use the ENTER key to pause/play the simulation
+- Use the ARROW KEYS to step through the simulation, both forward and backward.
