@@ -27,6 +27,14 @@ void draw() {
   if (running) {
     runCycle();
   }
+  
+  long totalMemory = Runtime.getRuntime().totalMemory();
+  long freeMemory = Runtime.getRuntime().freeMemory();
+  long usedMemory = totalMemory - freeMemory;
+  
+  println("Total memory: " + totalMemory / (1024 * 1024) + " MB");
+  println("Free memory: " + freeMemory / (1024 * 1024) + " MB");
+  println("Used memory: " + usedMemory / (1024 * 1024) + " MB");
 }
 void runCycle() {
   calcNextGrid();
